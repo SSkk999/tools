@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import TodoItem from "../componets/TodoItem";
 import { Todo } from "../models/todos";
 const TodoList: React.FC = () => {
@@ -30,31 +30,33 @@ const month = now.getMonth() + 1;
     <View style={styles.container}>
   <Text style={styles.dateText}>Todo List</Text>
   <Text style={styles.dateText}>{day}:{month}</Text>
-  <View style={{ margin:50 , marginTop: 8 }} >
-    {todos.map(todo => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onToggle={handleToggle}
-
+        <FlatList
+          data={todos}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+            <TodoItem todo={item} onToggle={handleToggle} />
+          )}
+          contentContainerStyle={{ marginHorizontal: 50, marginTop: 8, paddingBottom: 20 }}
+          showsVerticalScrollIndicator={false}
         />
-      ))}
-  </View>
+
+
      
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    flex: 1,                 
+             
     justifyContent: "center", 
-    alignItems: "center", 
-    marginTop : 140   
+
   },
   dateText: {
     fontSize: 48,            
     fontWeight: "bold",
     color: "#333",
+    marginTop: 0,
+    textAlign: "center",
   },
 });
 export default TodoList;

@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 13,
-    marginBottom: 8,
+    padding: 17,
+    marginBottom: 6,
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#d4edda",
   },
   check: {
-    fontSize: 20,
+    fontSize: 8,
     color: "gray",
     marginRight: 10,
   },
