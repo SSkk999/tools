@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import TodoItem from "../componets/TodoItem";
 import { Todo } from "../models/todos";
+import TodoForm from "./TodoForm";
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
@@ -22,12 +23,18 @@ const TodoList: React.FC = () => {
       )
     );
   };
+
+    const addTodo = (todo: Todo) => {
+    setTodos((prev) => [...prev, todo]);
+  };
 const now = new Date();
 const day = now.getDate(); 
 const month = now.getMonth() + 1; 
 
   return (
+
     <View style={styles.container}>
+          <TodoForm  onSubmit={addTodo}/>
   <Text style={styles.dateText}>Todo List</Text>
   <Text style={styles.dateText}>{day}:{month}</Text>
         <FlatList
