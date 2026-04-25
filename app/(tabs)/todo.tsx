@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import TodoForm from "../componets/TodoForm";
 import { Todo } from "../models/todos";
-
 export default function TodocCreate() {
    const [todos, setTodos] = useState<Todo[]>([]);
 
@@ -14,11 +14,11 @@ const addTodo = (todo: Todo) => {
     setTodos((prev) => [...prev, todo]);
   };
   return (
-    <View>
+    <SafeAreaView>
         <TodoForm  onSubmit={addTodo}/>
         <Text style={styles.dateText}>Todo List</Text>
         <Text style={styles.dateText}>{day}:{month}</Text>
-    </View>
+    </SafeAreaView>
   );
   
 }
