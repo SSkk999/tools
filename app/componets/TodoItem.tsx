@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     color: "green",
     textDecorationLine: "line-through",
   },
+  
 });
 
 export default TodoItem;
