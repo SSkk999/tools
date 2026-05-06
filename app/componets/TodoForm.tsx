@@ -2,18 +2,17 @@ import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Todo } from "../models/todos";
+import { storage } from "../services/storage";
 
 type TodoFormInputs = {
   todo: string;
   completed: boolean;
-  userId: string; 
+  userId: string;
 };
 
-interface TodoFormProps {
-  onSubmit: (data: Todo) => void;
-}
+const STORAGE_KEY = "TODOS";
 
-const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
+const TodoForm: React.FC = () => {
   const { control, handleSubmit, reset } = useForm<TodoFormInputs>({
     defaultValues: {
       todo: "",
@@ -22,14 +21,19 @@ const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
     },
   });
 
-  const submitHandler: SubmitHandler<TodoFormInputs> = (data) => {
+  const submitHandler: SubmitHandler<TodoFormInputs> = async (data) => {
     const todoData: Todo = {
-      id: Date.now(), 
+      id: Date.now(),
       todo: data.todo,
       completed: data.completed,
       userId: Number(data.userId),
     };
-    onSubmit(todoData);
+
+    const existing = await storage.load<Todo[]>(STORAGE_KEY);
+    const updated = existing ? [...existing, todoData] : [todoData];
+
+    await storage.save(STORAGE_KEY, updated);
+
     reset();
     Alert.alert("Успішно", "Todo додано!");
   };
@@ -37,6 +41,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.label}>Назва задачі</Text>
+
       <Controller
         control={control}
         name="todo"
@@ -52,6 +57,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
       />
 
       <Text style={styles.label}>User ID</Text>
+
       <Controller
         control={control}
         name="userId"
@@ -73,10 +79,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
         render={({ field: { onChange, value } }) => (
           <View style={styles.checkboxContainer}>
             <Text>Завершено:</Text>
-            <Button
-              title={value ? "Так" : "Ні"}
-              onPress={() => onChange(!value)}
-            />
+            <Button title={value ? "Так" : "Ні"} onPress={() => onChange(!value)} />
           </View>
         )}
       />
