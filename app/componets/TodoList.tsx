@@ -1,54 +1,42 @@
-import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
-import TodoItem from "../componets/TodoItem";
-import { Todo } from "../models/todos";
-import { storage } from "../services/storage";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
-const STORAGE_KEY = "TODOS";
+
 
 const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  // const [todos, setTodos] = useState<Todo[]>([]);
 
-  const loadTodos = async () => {
-    const local = await storage.load<Todo[]>(STORAGE_KEY);
+  // const loadTodos = async () => {
+  //   const data = await getTodos();
+  //   setTodos(data);
+  // };
 
-    if (local && local.length > 0) {
-      setTodos(local);
-      return;
-    }
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     loadTodos();
+  //   }, [])
+  // );
 
-    const res = await fetch("https://dummyjson.com/todos?limit=10");
-    const data = await res.json();
+  // const handleToggle = async (id: number) => {
+  //   const todo = todos.find(t => t.id === id);
+  //   if (!todo) return;
 
-    setTodos(data.todos);
-    await storage.save(STORAGE_KEY, data.todos);
-  };
+  //   await toggleTodo(id, todo.completed);
 
-  useFocusEffect(
-    useCallback(() => {
-      loadTodos();
-    }, [])
-  );
 
-  const handleToggle = async (id: number) => {
-    const updated = todos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
-
-    setTodos(updated);
-    await storage.save(STORAGE_KEY, updated);
-  };
+  //   loadTodos();
+  // };
 
   return (
-    <View style={styles.container}>
-      <FlatList
+    <View >
+      {/* <FlatList
         data={todos}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TodoItem todo={item} onToggle={handleToggle} />
         )}
-      />
+      /> */}
+      <Text style={styles.dateText}>Hello</Text>
     </View>
   );
 };
@@ -56,5 +44,15 @@ const TodoList: React.FC = () => {
 export default TodoList;
 
 const styles = StyleSheet.create({
-  container: {}
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+   dateText: {
+    fontSize: 48,            
+    fontWeight: "bold",
+    color: "#333",
+    marginTop: 0,
+    textAlign: "center",
+  }
 });

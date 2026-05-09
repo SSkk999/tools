@@ -10,7 +10,12 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="todo">
         <Label>TodoCreate</Label>
-        <Icon sf="info.circle.fill" />
+        <Icon sf="plus.circle.fill" />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="db">
+        <Label>Db</Label>
+        <Icon sf="folder.fill" />
       </NativeTabs.Trigger>
     </NativeTabs>
   );

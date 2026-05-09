@@ -1,12 +1,16 @@
 import { Stack } from "expo-router";
-
-export default function RootLayout() {
+import { SQLiteProvider } from "expo-sqlite";
+import { migrateDbIfNeeded } from "../services/db";
+const DATABASE_NAME = "todos.db";
+export default function Layout() {
   return (
-    <Stack>
-      <Stack.Screen
-        name="(tabs)"
-        options={{ title: "Home", headerShown: false }}
-      ></Stack.Screen>
-    </Stack>
+ <SQLiteProvider databaseName={DATABASE_NAME} onInit={migrateDbIfNeeded}>
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{ title: "Home", headerShown: false }}
+        ></Stack.Screen>
+      </Stack>
+    </SQLiteProvider>
   );
 }
